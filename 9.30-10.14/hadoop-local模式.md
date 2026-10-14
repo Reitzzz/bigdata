@@ -216,6 +216,10 @@ export HADOOP_HOME=/home/bigdata3/software/hadoop-3.5.0
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 ```
 
+![图示：在 .bashrc 末尾配置 HADOOP_HOME 和 PATH](fig-07-bashrc-hadoop.png)
+
+*图示：在 .bashrc 末尾配置 HADOOP_HOME 和 PATH*
+
 重新装载 .bashrc 后测试：
 
 ```sh
