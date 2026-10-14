@@ -5,6 +5,7 @@
 ## 目录
 
 - [9.30](9.30/930.md) — Hadoop local 模式环境准备：关闭 ufw 防火墙、安装 sshd、安装 JDK
+- [10.14](10.14/1014.md) — 在集群 master 节点（`bigdata3@master`）安装 hadoop local 模式：解压 hadoop 压缩包
 
 ## 实验环境
 
