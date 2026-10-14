@@ -371,7 +371,6 @@ bigdata3@master:~/testHadoopLocal/output$ cat part-r-00000
 
 <!-- 图示待补：ls 看到 output 目录、cat part-r-00000 看到结果 -->
 
-
 #### 1.5.4 在输入目录添加一个新文件，再次运行程序
 
 在 `input` 目录里新建 `my.txt`，里面既有符合正则 `dfs[a-z.]+` 的内容，也有不符合的内容：
@@ -381,6 +380,17 @@ cd input
 vim my.txt
 cd ..
 ```
+
+`my.txt` 里的内容：
+
+```
+hello hadoop
+dfsadmin
+这是一行普通文字，不含符合正则的词
+another ordinary line
+```
+
+四行里只有 `dfsadmin` 这个词整体符合 `dfs[a-z.]+`（所以统计出来是 1 次），其余几行都不会被匹配到。
 
 hadoop 不会往已经存在的输出目录里写（第一次运行已经生成了 `output`，再跑到同名目录会报目录已存在），所以要先把脚本里的输出路径改掉，把 `output` 改成 `output1`：
 
