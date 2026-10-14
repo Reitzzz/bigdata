@@ -294,7 +294,7 @@ core-site.xml           hdfs-rbf-site.xml  httpfs-site.xml kms-site.xml   yarn-s
 
 #### 1.5.2 新建一个脚本文件，运行 hadoop 程序
 
-新建一个脚本文件，文件内容是运行官方 `grep` 示例的命令：
+新建一个脚本文件（比如 `runExample.sh`，放在 `~/testHadoopLocal` 下），文件内容是运行官方 `grep` 示例的命令：
 
 ```sh
 hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar grep input output 'dfs[a-z.]+'
@@ -302,4 +302,65 @@ hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.j
 
 其中 `input`、`output` 是相对于脚本所在目录（`~/testHadoopLocal`）的两个目录名，`'dfs[a-z.]+'` 是要统计的正则表达式。
 
-<!-- 图示待补：脚本内容与运行过程/结果 -->
+运行时会先打出一大段 mapreduce 日志，最后是各类计数器，例如（片段）：
+
+```
+	Shuffled Maps =1
+	Failed Shuffles=0
+	Merged Map outputs=1
+	GC time elapsed (ms)=8
+	Total committed heap usage (bytes)=1233125376
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=123
+	File Output Format Counters
+		Bytes Written=23
+```
+
+<!-- 图示待补：脚本内容与运行日志（含结尾计数器） -->
+
+#### 1.5.3 查看结果
+
+回到工作目录，能看到跑完多了一个 `output` 目录：
+
+```sh
+ls
+```
+
+```
+bigdata3@master:~/testHadoopLocal$ ls
+input  output  runExample.sh
+```
+
+结果在 `output` 下：`part-r-00000` 是 reduce 的输出文件，`_SUCCESS` 是任务成功的空标记文件。
+
+```sh
+cd output/
+ls
+```
+
+```
+bigdata3@master:~/testHadoopLocal/output$ ls
+part-r-00000  _SUCCESS
+```
+
+看结果文件的内容：
+
+```sh
+cat part-r-00000
+```
+
+```
+bigdata3@master:~/testHadoopLocal/output$ cat part-r-00000
+1	dfsadmin
+```
+
+只有一行：前一个数是词频，后面是匹配 `dfs[a-z.]+` 命中的词（`dfsadmin`）。第一次运行官方示例就出了结果，local 模式算是跑通了。
+
+<!-- 图示待补：ls 看到 output 目录、cat part-r-00000 看到结果 -->
