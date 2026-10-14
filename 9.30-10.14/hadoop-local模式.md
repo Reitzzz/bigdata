@@ -7,7 +7,7 @@
 - **本地 VMware 虚拟机**：主机名 `reitzzz-VMware-Virtual-Platform`，用户 `reitzzz`。在这里做环境准备（关防火墙、装 sshd）。
 - **集群 master 节点**：主机名 `master`，用户 `bigdata3`，软件统一放在 `~/software`（= `/home/bigdata3/software`）。jdk 和 hadoop 都装在这里。
 
-编号按你笔记的写法：「安装 hadoop local 模式」是 1.4（课程文档里是 1.3，解压 hadoop 1.3.1 / 配置 hadoop 1.3.2），所以解压是 1.4.1、配置是 1.4.2。
+编号按你笔记的写法：「安装 hadoop local 模式」是 1.4（课程文档里是 1.3，解压 hadoop 1.3.1 / 配置 hadoop 1.3.2），所以解压是 1.4.1、配置是 1.4.2；「测试 hadoop local 模式」是 1.5（课程文档里是 1.4）。
 
 ## 1 建立 hadoop 的 local 模式
 
@@ -238,3 +238,68 @@ Usage: hadoop [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
 *图示：hadoop 命令可用（打出 Usage）*
 
 能打出 Usage 说明 `hadoop` 命令已经可用（`PATH` 生效），local 模式的安装部分完成。
+
+
+### 1.5 测试 hadoop local 模式
+
+（课程文档里这一部分是 1.4）
+
+用官方自带的示例程序来验证 local 模式能跑通：示例包是 `hadoop-mapreduce-examples-3.5.0.jar`，在 `$HADOOP_HOME/share/hadoop/mapreduce/` 下，本次用的是里面的 `grep` 例子。
+
+#### 1.5.1 新建目录，拷贝文件
+
+在 master 上建一个测试用的工作目录 `~/testHadoopLocal`，在里面建 `input` 目录：
+
+```sh
+cd ~/testHadoopLocal
+mkdir input
+ls
+```
+
+```
+bigdata3@master:~/testHadoopLocal$ mkdir input
+bigdata3@master:~/testHadoopLocal$ ls
+input
+```
+
+把 hadoop 配置目录下的 xml 文件当作输入数据拷进 `input`：
+
+```sh
+cp etc/hadoop/*.xml input
+```
+
+这条会报错——当前目录 `~/testHadoopLocal` 下面没有 `etc`，得用 `$HADOOP_HOME` 拼出绝对路径：
+
+```
+cp: cannot stat 'etc/hadoop/*.xml': No such file or directory
+```
+
+换成下面的写法就对了：
+
+```sh
+cp $HADOOP_HOME/etc/hadoop/*.xml input
+cd input
+ls
+```
+
+```
+bigdata3@master:~/testHadoopLocal/input$ ls
+capacity-scheduler.xml  hadoop-policy.xml  hdfs-site.xml   kms-acls.xml   mapred-site.xml
+core-site.xml           hdfs-rbf-site.xml  httpfs-site.xml kms-site.xml   yarn-site.xml
+```
+
+一共 10 个 xml 文件，拷贝成功。
+
+<!-- 图示待补：mkdir input、拷贝 xml 到 input、cd input 后 ls 看到 10 个 xml -->
+
+#### 1.5.2 新建一个脚本文件，运行 hadoop 程序
+
+新建一个脚本文件，文件内容是运行官方 `grep` 示例的命令：
+
+```sh
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar grep input output 'dfs[a-z.]+'
+```
+
+其中 `input`、`output` 是相对于脚本所在目录（`~/testHadoopLocal`）的两个目录名，`'dfs[a-z.]+'` 是要统计的正则表达式。
+
+<!-- 图示待补：脚本内容与运行过程/结果 -->

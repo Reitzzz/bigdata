@@ -4,7 +4,7 @@
 
 ## 目录
 
-- [9.30-10.14](9.30-10.14/hadoop-local模式.md) — 建立并验证 hadoop 的 local 模式：关防火墙、装 sshd、装 jdk、装 hadoop 并配置环境变量
+- [9.30-10.14](9.30-10.14/hadoop-local模式.md) — 建立并验证 hadoop 的 local 模式：关防火墙、装 sshd、装 jdk、装 hadoop 并配置环境变量、用官方示例程序测试
 
 ## 实验环境
 
