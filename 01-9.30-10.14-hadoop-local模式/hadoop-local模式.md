@@ -21,7 +21,7 @@ Ubuntu 默认启用 ufw（Uncomplicated firewall），它会拦截 hadoop 各组
 sudo systemctl status ufw
 ```
 
-![systemctl status ufw](ufw-status-enabled.png)
+![systemctl status ufw](1.1-ufw-status-enabled.png)
 
 输出中 `Loaded: ... enabled` 表示 ufw 服务已设为开机自启，`Active: active (exited)` 表示它当前处于活动状态（ufw 是一次性服务，加载完规则后即以 exited 状态结束，这是正常的）。`Main PID: 457 (code=exited, status=0/SUCCESS)` 说明服务正常退出。
 
@@ -31,7 +31,7 @@ sudo systemctl status ufw
 sudo systemctl disable ufw
 ```
 
-![禁用 ufw 开机自启的输出](ufw-disable.png)
+![禁用 ufw 开机自启的输出](1.1-ufw-disable.png)
 
 输出里的 `Synchronizing state of ufw.service with SysV service script with /usr/lib/systemd/systemd-sysv-install` 是 systemd 在同步兼容的 SysV 启动脚本，属于正常提示，不是报错。
 
@@ -41,7 +41,7 @@ sudo systemctl disable ufw
 sudo ufw status
 ```
 
-![ufw status 显示不活动](ufw-status-inactive.png)
+![ufw status 显示不活动](1.1-ufw-status-inactive.png)
 
 输出 `状态：不活动`，说明防火墙已经关闭。
 
@@ -57,7 +57,7 @@ hadoop 的启动脚本需要 ssh 登录到各个节点去启动守护进程，�
 sudo apt install openssh-server
 ```
 
-![apt 安装 openssh-server](sshd-install.png)
+![apt 安装 openssh-server](1.2-sshd-install.png)
 
 本机此前已经安装过，apt 提示 `openssh-server 已经是最新版（1:9.6p1-3ubuntu13.19）`，无需重复安装。
 
@@ -67,7 +67,7 @@ sudo apt install openssh-server
 ssh 172.21.2.5
 ```
 
-![首次 ssh 连接时的指纹确认提示](ssh-first-connect.png)
+![首次 ssh 连接时的指纹确认提示](1.2-ssh-first-connect.png)
 
 第一次连接该主机时，ssh 会提示无法确认对方身份，并给出 ED25519 密钥指纹：
 
@@ -90,7 +90,7 @@ ED25519 key fingerprint is SHA256:gKZAbI+RWM3m7Ei2NLzSJhgS9ZkzzJxNuwWkAhxw9jI.
 java -version
 ```
 
-![虚拟机上 apt 装的 java 输出](java-version.png)
+![虚拟机上 apt 装的 java 输出](1.3-java-version.png)
 
 ```
 openjdk version "17.0.20.1" 2026-08-18
@@ -216,7 +216,7 @@ export HADOOP_HOME=/home/bigdata3/software/hadoop-3.5.0
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 ```
 
-![图示：在 .bashrc 末尾配置 HADOOP_HOME 和 PATH](fig-07-bashrc-hadoop.png)
+![图示：在 .bashrc 末尾配置 HADOOP_HOME 和 PATH](1.4.2-bashrc-hadoop.png)
 
 *图示：在 .bashrc 末尾配置 HADOOP_HOME 和 PATH*
 
@@ -233,7 +233,7 @@ Usage: hadoop [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
   where CLASSNAME is a user-provided Java class
 ```
 
-![图示：hadoop 命令可用（打出 Usage）](fig-08-hadoop-usage.png)
+![图示：hadoop 命令可用（打出 Usage）](1.4.2-hadoop-usage.png)
 
 *图示：hadoop 命令可用（打出 Usage）*
 
@@ -290,7 +290,7 @@ core-site.xml           hdfs-rbf-site.xml  httpfs-site.xml kms-site.xml   yarn-s
 
 一共 10 个 xml 文件，拷贝成功。
 
-![图示：在 input 目录下 ls 看到拷贝进来的 10 个 xml](test-input-xml.png)
+![图示：在 input 目录下 ls 看到拷贝进来的 10 个 xml](1.5.1-test-input-xml.png)
 
 *图示：建好 `input` 目录、把 `$HADOOP_HOME/etc/hadoop/*.xml` 拷进去后，`ls` 看到 10 个 xml 文件*
 
@@ -331,7 +331,7 @@ sh runExample.sh
 		Bytes Written=23
 ```
 
-![图示：runExample.sh 脚本内容与运行日志](run-example-script-log.png)
+![图示：runExample.sh 脚本内容与运行日志](1.5.2-run-example-script-log.png)
 
 *图示：`cat runExample.sh` 看到脚本内容，以及 `sh runExample.sh` 运行到结尾的计数器（`map 100% reduce 100%`、`completed successfully`）*
 
@@ -373,7 +373,7 @@ bigdata3@master:~/testHadoopLocal/output$ cat part-r-00000
 
 只有一行：前一个数是词频，后面是匹配 `dfs[a-z.]+` 命中的词（`dfsadmin`）。第一次运行官方示例就出了结果，local 模式算是跑通了。
 
-![图示：ls 看到 output 目录，cat 出结果](output-part-r.png)
+![图示：ls 看到 output 目录，cat 出结果](1.5.3-output-part-r.png)
 
 *图示：`ls` 看到跑完多出的 `output` 目录，`cat output/part-r-00000` 得到 `1 dfsadmin`*
 
@@ -396,7 +396,7 @@ dfsaaaaaaaaaaaaaaaaaaa
 another ordinary line
 ```
 
-![图示：新建的 my.txt 内容](my-txt-content.png)
+![图示：新建的 my.txt 内容](1.5.4-my-txt-content.png)
 
 *图示：`input/my.txt` 的四行内容*
 
@@ -414,7 +414,7 @@ vim runExample.sh
 hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar grep input output1 'dfs[a-z.]+'
 ```
 
-![图示：把输出路径改成 output1 后的脚本](run-example-output1-script.png)
+![图示：把输出路径改成 output1 后的脚本](1.5.4-run-example-output1-script.png)
 
 *图示：修改后的 `runExample.sh`，输出目录由 `output` 改成 `output1`*
 
@@ -438,10 +438,10 @@ bigdata3@master:~/testHadoopLocal/output1$ cat part-r-00000
 
 结果从一行变成两行：新加的 `my.txt` 里那个符合正则的词（`dfsaaaaaaaaaaaaaaaaaaa`）也被统计进来了，不符合正则的内容没有出现在结果里——说明 grep 示例确实是按正则筛选的。
 
-![图示：再次运行 sh runExample.sh 的日志](run-example-output1-log.png)
+![图示：再次运行 sh runExample.sh 的日志](1.5.4-run-example-output1-log.png)
 
 *图示：改用 `output1` 后再次运行 `sh runExample.sh`（`Bytes Read` 由 123 增至 162，对应输入里多了一个文件）*
 
-![图示：output1 的结果](output1-part-r.png)
+![图示：output1 的结果](1.5.4-output1-part-r.png)
 
 *图示：`ls` 看到 `output` 和 `output1` 并存，`cat output1/part-r-00000` 得到两行结果*
