@@ -229,4 +229,8 @@ Usage: hadoop [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
   where CLASSNAME is a user-provided Java class
 ```
 
+![图示：hadoop 命令可用（打出 Usage）](fig-08-hadoop-usage.png)
+
+*图示：hadoop 命令可用（打出 Usage）*
+
 能打出 Usage 说明 `hadoop` 命令已经可用（`PATH` 生效），local 模式的安装部分完成。
