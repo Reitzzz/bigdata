@@ -7,9 +7,9 @@
 - **本地 VMware 虚拟机**：主机名 `reitzzz-VMware-Virtual-Platform`，用户 `reitzzz`。在这里做环境准备（关防火墙、装 sshd）。
 - **集群 master 节点**：主机名 `master`，用户 `bigdata3`，软件统一放在 `~/software`（= `/home/bigdata3/software`）。jdk 和 hadoop 都装在这里。
 
-对应课程文档的章节：本节「安装 jdk」= 课程文档 1.1.3，「安装 hadoop local 模式」= 课程文档 1.3（解压 hadoop 1.3.1、配置 hadoop 1.3.2，笔记里对应 1.4.1、1.4.2）。
+编号按你笔记的写法：「安装 hadoop local 模式」是 1.4（课程文档里是 1.3，解压 hadoop 1.3.1 / 配置 hadoop 1.3.2），所以解压是 1.4.1、配置是 1.4.2。
 
-## 1 环境准备
+## 1 建立 hadoop 的 local 模式
 
 ### 1.1 关闭防火墙 ufw（本地 VMware 虚拟机）
 
@@ -150,11 +150,11 @@ Java HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)
 
 版本是 17.0.12（压缩包里的版本），说明 `PATH` 已经指向新装的 jdk，环境变量配置生效。
 
-## 2 安装 hadoop local 模式（集群 master 节点）
+### 1.4 安装 hadoop local 模式（集群 master 节点）
 
 hadoop 也不用 apt 装，同样是下载官方压缩包后解压使用：解压出来的目录就是后面要配的 `HADOOP_HOME`。
 
-### 2.1 解压 hadoop
+#### 1.4.1 解压 hadoop
 
 **1) 进入软件目录，确认压缩包在**
 
@@ -194,7 +194,7 @@ hadoop-3.5.0  hadoop-3.5.0.tar.gz  jdk-17.0.12  jdk-17.0.12_linux-x64_bin.tar.gz
 
 看到 `hadoop-3.5.0` 目录即为解压成功。该目录的绝对路径 `/home/bigdata3/software/hadoop-3.5.0` 就是下一步 `HADOOP_HOME` 要填的值。
 
-### 2.2 配置 hadoop
+#### 1.4.2 配置 hadoop
 
 在 `~/.bashrc` 中配置两项：
 
