@@ -302,6 +302,12 @@ hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.j
 
 其中 `input`、`output` 是相对于脚本所在目录（`~/testHadoopLocal`）的两个目录名，`'dfs[a-z.]+'` 是要统计的正则表达式。
 
+写好后在 `~/testHadoopLocal` 下运行这个脚本：
+
+```sh
+sh runExample.sh
+```
+
 运行时会先打出一大段 mapreduce 日志，最后是各类计数器，例如（片段）：
 
 ```
@@ -364,3 +370,48 @@ bigdata3@master:~/testHadoopLocal/output$ cat part-r-00000
 只有一行：前一个数是词频，后面是匹配 `dfs[a-z.]+` 命中的词（`dfsadmin`）。第一次运行官方示例就出了结果，local 模式算是跑通了。
 
 <!-- 图示待补：ls 看到 output 目录、cat part-r-00000 看到结果 -->
+
+
+#### 1.5.4 在输入目录添加一个新文件，再次运行程序
+
+在 `input` 目录里新建 `my.txt`，里面既有符合正则 `dfs[a-z.]+` 的内容，也有不符合的内容：
+
+```sh
+cd input
+vim my.txt
+cd ..
+```
+
+hadoop 不会往已经存在的输出目录里写（第一次运行已经生成了 `output`，再跑到同名目录会报目录已存在），所以要先把脚本里的输出路径改掉，把 `output` 改成 `output1`：
+
+```sh
+vim runExample.sh
+```
+
+改完之后的脚本内容：
+
+```sh
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar grep input output1 'dfs[a-z.]+'
+```
+
+再运行一次：
+
+```sh
+sh runExample.sh
+```
+
+```
+                     Bytes Written=48
+bigdata3@master:~/testHadoopLocal$ ls
+input  output  output1  runExample.sh
+bigdata3@master:~/testHadoopLocal$ cd output1
+bigdata3@master:~/testHadoopLocal/output1$ ls
+part-r-00000  _SUCCESS
+bigdata3@master:~/testHadoopLocal/output1$ cat part-r-00000
+1	dfsadmin
+1	dfsaaaaaaaaaaaaaaaaaaa
+```
+
+结果从一行变成两行：新加的 `my.txt` 里那个符合正则的词（`dfsaaaaaaaaaaaaaaaaaaa`）也被统计进来了，不符合正则的内容没有出现在结果里——说明 grep 示例确实是按正则筛选的。
+
+<!-- 图示待补：my.txt 内容、改过输出路径的脚本、再运行后 output1 的结果 -->
