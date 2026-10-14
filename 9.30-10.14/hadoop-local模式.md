@@ -290,7 +290,9 @@ core-site.xml           hdfs-rbf-site.xml  httpfs-site.xml kms-site.xml   yarn-s
 
 一共 10 个 xml 文件，拷贝成功。
 
-<!-- 图示待补：mkdir input、拷贝 xml 到 input、cd input 后 ls 看到 10 个 xml -->
+![图示：在 input 目录下 ls 看到拷贝进来的 10 个 xml](test-input-xml.png)
+
+*图示：建好 `input` 目录、把 `$HADOOP_HOME/etc/hadoop/*.xml` 拷进去后，`ls` 看到 10 个 xml 文件*
 
 #### 1.5.2 新建一个脚本文件，运行 hadoop 程序
 
@@ -329,7 +331,9 @@ sh runExample.sh
 		Bytes Written=23
 ```
 
-<!-- 图示待补：脚本内容与运行日志（含结尾计数器） -->
+![图示：runExample.sh 脚本内容与运行日志](run-example-script-log.png)
+
+*图示：`cat runExample.sh` 看到脚本内容，以及 `sh runExample.sh` 运行到结尾的计数器（`map 100% reduce 100%`、`completed successfully`）*
 
 #### 1.5.3 查看结果
 
@@ -369,7 +373,9 @@ bigdata3@master:~/testHadoopLocal/output$ cat part-r-00000
 
 只有一行：前一个数是词频，后面是匹配 `dfs[a-z.]+` 命中的词（`dfsadmin`）。第一次运行官方示例就出了结果，local 模式算是跑通了。
 
-<!-- 图示待补：ls 看到 output 目录、cat part-r-00000 看到结果 -->
+![图示：ls 看到 output 目录，cat 出结果](output-part-r.png)
+
+*图示：`ls` 看到跑完多出的 `output` 目录，`cat output/part-r-00000` 得到 `1 dfsadmin`*
 
 #### 1.5.4 在输入目录添加一个新文件，再次运行程序
 
@@ -390,6 +396,10 @@ dfsaaaaaaaaaaaaaaaaaaa
 another ordinary line
 ```
 
+![图示：新建的 my.txt 内容](my-txt-content.png)
+
+*图示：`input/my.txt` 的四行内容*
+
 四行里只有 `dfsaaaaaaaaaaaaaaaaaaa` 这个词整体符合 `dfs[a-z.]+`（所以统计出来是 1 次），其余几行都不会被匹配到。
 
 hadoop 不会往已经存在的输出目录里写（第一次运行已经生成了 `output`，再跑到同名目录会报目录已存在），所以要先把脚本里的输出路径改掉，把 `output` 改成 `output1`：
@@ -403,6 +413,10 @@ vim runExample.sh
 ```sh
 hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar grep input output1 'dfs[a-z.]+'
 ```
+
+![图示：把输出路径改成 output1 后的脚本](run-example-output1-script.png)
+
+*图示：修改后的 `runExample.sh`，输出目录由 `output` 改成 `output1`*
 
 再运行一次：
 
@@ -424,4 +438,10 @@ bigdata3@master:~/testHadoopLocal/output1$ cat part-r-00000
 
 结果从一行变成两行：新加的 `my.txt` 里那个符合正则的词（`dfsaaaaaaaaaaaaaaaaaaa`）也被统计进来了，不符合正则的内容没有出现在结果里——说明 grep 示例确实是按正则筛选的。
 
-<!-- 图示待补：my.txt 内容、改过输出路径的脚本、再运行后 output1 的结果 -->
+![图示：再次运行 sh runExample.sh 的日志](run-example-output1-log.png)
+
+*图示：改用 `output1` 后再次运行 `sh runExample.sh`（`Bytes Read` 由 123 增至 162，对应输入里多了一个文件）*
+
+![图示：output1 的结果](output1-part-r.png)
+
+*图示：`ls` 看到 `output` 和 `output1` 并存，`cat output1/part-r-00000` 得到两行结果*
