@@ -385,12 +385,12 @@ cd ..
 
 ```
 hello hadoop
-dfsadmin
+dfsaaaaaaaaaaaaaaaaaaa
 这是一行普通文字，不含符合正则的词
 another ordinary line
 ```
 
-四行里只有 `dfsadmin` 这个词整体符合 `dfs[a-z.]+`（所以统计出来是 1 次），其余几行都不会被匹配到。
+四行里只有 `dfsaaaaaaaaaaaaaaaaaaa` 这个词整体符合 `dfs[a-z.]+`（所以统计出来是 1 次），其余几行都不会被匹配到。
 
 hadoop 不会往已经存在的输出目录里写（第一次运行已经生成了 `output`，再跑到同名目录会报目录已存在），所以要先把脚本里的输出路径改掉，把 `output` 改成 `output1`：
 
