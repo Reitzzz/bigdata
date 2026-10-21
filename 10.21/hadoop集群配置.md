@@ -20,31 +20,33 @@ hadoop集群由几个至数千个节点构成，节点功能：
 
 ### 3.1 准备3个Linux节点
 
-### 3.2 修改节点的计算机构名
+### 3.2 修改节点的计算机名
 
-hadoop要求：计算机构名必须与域名一致，我们使用本地域名。
+hadoop要求：计算机名必须与域名一致，我们使用本地域名。
 
 两个方法：
 
 1) 编辑法
 
-命令：
+命名：
 
 ```sh
 sudo vim /etc/hostname
 ```
 
-将文件中的内容改成需要的计算机构名。
+将文件中的内容改成需要的计算机名。
 
 2) 文件内容覆盖法
 
-命令：
+命名：
 
 ```sh
-sudo echo 计算机名 >/etc/hostname
+sudo sh -c "echo 计算机名 >/etc/hostname"
 ```
 
 修改后重启生效。
+
+![通过 ssh 登录后在 slave 上用 echo 覆盖 /etc/hostname 并重启](3.2-hostname-echo-reboot.png)
 
 ### 3.3 所有节点建立相同的用户名
 
@@ -52,36 +54,66 @@ sudo echo 计算机名 >/etc/hostname
 
 #### 3.4.1 master
 
+命令：
+
 ```sh
 sudo systemctl status ufw
 ```
+
+![master 上 ufw 处于 inactive (dead) 且 disabled](3.4.1-master-ufw-disabled.png)
 
 防火墙已经关闭，并且disable。
 
 #### 3.4.2 slave0
 
-```sh
-sudo systemctl status ufw
-```
+![slave0 上 ufw 当前 active 且 enable](3.4.2-slave0-ufw-active-stop-disable.png)
 
 当前active，并且enable，所以需要stop，然后disable。
+
+<!-- TODO: 补一张 slave0 执行 stop 与 disable 之后的截图 -->
 
 #### 3.4.3 slave1
 
-```sh
-sudo systemctl status ufw
-```
+![slave1 上 ufw 当前 active 且 enable，执行 stop 与 disable 后的输出](3.4.3-slave1-ufw-active-stop-disable.png)
 
 当前active，并且enable，所以需要stop，然后disable。
+
+<!-- TODO: 补一张 slave1 执行 stop 与 disable 之后的截图 -->
 
 ### 3.5 配置固定ip地址
 
 当前路由配置：
 
+子网：192.168.111.0　子网掩码：255.255.255.0　网关：192.168.111.1
+
+DHCP地址范围：192.168.111.128~192.168.111.254
+
+网络规划：
+
+* master：192.168.111.10
+* slave0：192.168.111.11
+* slave1：192.168.111.12
+
+改之前 master 是 DHCP 动态地址：
+
+![master 上 ip a，ens36 拿到 192.168.58.129](3.5-master-ip-a-dynamic.png)
+
+slave1 同样是动态地址：
+
+![slave1 上 ip a，ens33 拿到 192.168.58.131](3.5-slave1-ip-a-dynamic.png)
+
+#### 3.5.1 master
+
+master是desktop版，最好使用图形界面设置：
+
+网络设置：
+
+![图形界面「有线」里把 IPv4 设为手动 192.168.58.10，掩码 255.255.255.0，网关 192.168.58.2，DNS 172.16.8.3](3.5.1-master-ipv4-manual.png)
+
+测试：
+
+<!-- TODO: 补一张改完固定 IP 后的验证截图（ip a 或 ping） -->
+
 ### 3.6 配置本地域名
 
 ### 3.7 配置时钟同步
-
-### 3.8 安装JDK
-
-### 3.9 配置环境变量
