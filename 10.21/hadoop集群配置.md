@@ -47,3 +47,37 @@ sudo echo 计算机名 >/etc/hostname
 修改后重启生效。
 
 ### 3.3 所有节点建立相同的用户名
+
+### 3.4 所有节点关闭防火墙
+
+#### 3.4.1 master
+
+```sh
+sudo systemctl status ufw
+```
+
+防火墙已经关闭，并且disable。
+
+#### 3.4.2 slave0
+
+```sh
+sudo systemctl status ufw
+```
+
+当前active，并且enable，所以需要stop，然后disable。
+
+#### 3.4.3 slave1
+
+```sh
+sudo systemctl status ufw
+```
+
+当前active，并且enable，所以需要stop，然后disable。
+
+### 3.5 配置固定ip地址
+
+当前路由配置：
+
+### 3.6 配置本地域名
+
+### 3.7 配置时钟同步
