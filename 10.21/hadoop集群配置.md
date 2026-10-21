@@ -112,7 +112,7 @@ master是desktop版，最好使用图形界面设置：
 
 测试：
 
-<!-- TODO: 补一张改完固定 IP 后的验证截图（ip a 或 ping） -->
+![master 上 ip a，ens36 已是 192.168.58.10/24](3.5.1-master-ip-static.png)
 
 #### 3.5.2 slave0
 
