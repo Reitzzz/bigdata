@@ -70,15 +70,15 @@ sudo systemctl status ufw
 
 当前active，并且enable，所以需要stop，然后disable。
 
-<!-- TODO: 补一张 reitzzz1 执行 stop 与 disable 之后的截图 -->
+![reitzzz1 执行 stop 与 disable 后，ufw 变为 inactive (dead) 且 disabled](3.4.2-reitzzz1-ufw-result.png)
 
 #### 3.4.3 reitzzz2
 
-![reitzzz2 上 ufw 当前 active 且 enable，执行 stop 与 disable 后的输出](3.4.3-reitzzz2-ufw-active.png)
+![reitzzz2 上 ufw 当前 active 且 enable](3.4.3-reitzzz2-ufw-active.png)
 
 当前active，并且enable，所以需要stop，然后disable。
 
-<!-- TODO: 补一张 reitzzz2 执行 stop 与 disable 之后的截图 -->
+![reitzzz2 执行 stop 与 disable 后，ufw 变为 inactive (dead) 且 disabled](3.4.3-reitzzz2-ufw-result.png)
 
 ### 3.5 配置固定ip地址
 
@@ -136,7 +136,7 @@ network:
 
 编辑 /etc/netplan 下的文件：
 
-<!-- TODO: 补一张 /etc/netplan/*.yaml 编辑后的截图 -->
+![reitzzz1 上 ls /etc/netplan 只有 50-cloud-init.yaml，vi 编辑后的内容](3.5.2-reitzzz1-netplan-yaml.png)
 
 保存退出后，使网络配置生效，执行
 
@@ -146,7 +146,7 @@ sudo netplan apply
 
 有错误，重新配置：
 
-<!-- TODO: 补一张 netplan apply 报错/重配的命令与输出 -->
+![报错 unknown key 'gateway4'，改完 YAML 再次 apply 成功](3.5.2-reitzzz1-netplan-apply-error.png)
 
 ### 3.6 配置本地域名
 
