@@ -44,4 +44,6 @@ sudo vim /etc/hostname
 sudo echo 计算机名 >/etc/hostname
 ```
 
+修改后重启生效。
+
 ### 3.3 所有节点建立相同的用户名
