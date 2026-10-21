@@ -114,6 +114,40 @@ master是desktop版，最好使用图形界面设置：
 
 <!-- TODO: 补一张改完固定 IP 后的验证截图（ip a 或 ping） -->
 
+#### 3.5.2 slave0
+
+slave0 没有图形界面，用 netplan 改。先看 /etc/netplan 下有哪些文件，再编辑：
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: false
+      addresses:
+        - 192.168.58.11/24
+      routes:
+        - to: default
+          via: 192.168.58.2
+      nameservers:
+        addresses: [172.16.3.8]
+```
+
+编辑 /etc/netplan 下的文件：
+
+<!-- TODO: 补一张 /etc/netplan/*.yaml 编辑后的截图 -->
+
+保存退出后，使网络配置生效，执行
+
+```sh
+sudo netplan apply
+```
+
+有错误，重新配置：
+
+<!-- TODO: 补一张 netplan apply 报错/重配的命令与输出 -->
+
 ### 3.6 配置本地域名
 
 ### 3.7 配置时钟同步
